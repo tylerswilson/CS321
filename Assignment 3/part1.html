@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Part1</title>
+
+<!--
+  part1.html
+  Program to draw a object rotate with keyboard entries;
+  the user can change the position of the viewer using keys.
+  Adapted from Angel & Shreiner 2D Sierpinski Gasket, Color Cube programs
+  and recursive sphere and J. Andrew Whtiford Holey's PingPong1 program
+  by Tyler Wilson, March 2 2018
+-->
+
+
+<!--
+  vertex shader script
+-->
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+attribute vec4 vColor;
+varying   vec4 fColor;
+
+uniform   mat4 projection;
+uniform   mat4 model_view;
+
+void main () {
+  fColor      = vColor;
+  gl_Position = projection * model_view * vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 fColor;
+
+void
+main()
+{
+  gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="../Common/holeyShapes.js"></script>
+<script type="text/javascript" src="part1.js"></script>
+
+<body>
+<canvas id="gl-canvas" width="600" height="600">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+<p></p>
+
+</body>
+</html>
