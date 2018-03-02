@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Part 4</title>
+
+<!--
+  pingPong1.html
+  Program to draw a ball bouncing between two walls;
+  each triangle in the ball is a different randomly-generated color;
+  the user can change the position of the viewer using buttons.
+  Adapted from Angel & Shreiner 2D Sierpinski Gasket, Color Cube programs
+  and recursive sphere.
+  by J. Andrew Whitford Holey, February 15, 2016
+-->
+
+
+<!--
+  vertex shader script
+-->
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+attribute vec4 vColor;
+varying   vec4 fColor;
+uniform   mat4 projection;
+uniform   mat4 model_view;
+void main () {
+  fColor      = vColor;
+  gl_Position = projection * model_view * vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec4 fColor;
+void
+main()
+{
+  gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="part4.js"></script>
+
+<body>
+<canvas id="gl-canvas" width="600" height="600">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+<p></p>
+
+
+
+</body>
+</html>
