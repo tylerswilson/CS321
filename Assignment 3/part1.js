@@ -1,11 +1,11 @@
-// File: polygon.js
+// File: part1.js
 
-// Program to draw a ball bouncing between two walls;
+// Program to draw a object that can rotate with keys;
 // each triangle in the ball is a different randomly-generated color;
 // the user can change the position of the viewer using buttons.
 // Adapted from Angel & Shreiner 2D Sierpinski Gasket, Color Cube programs
-// and recursive sphere.
-// by J. Andrew Whitford Holey, February 15, 2016
+// and recursive sphere as well as J. Andrew Whitford Holey's program pingPong1
+// by Tyler Wilson March 2, 2018
 
 var canvas;
 var gl;

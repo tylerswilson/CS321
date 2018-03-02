@@ -1,8 +1,9 @@
-// part3.js
-// //
-// // Program to draw a 3d pyramid, an Octagon, and a Dimpled Cube with rotations
-// // Adapted from Angel & Shreiner cube program
-// // By Tyler Wilson on February 19th,
+
+<!-- // Program to draw a 3d pyramid, and a Dimpled Cube with a light effect
+// Adapted from Angel & Shreiner cube program and J. Andrew Whitford Holey's PingPong1
+// By Tyler Wilson on March 2, 2018 --> -->
+
+
 
 
 var canvas;
