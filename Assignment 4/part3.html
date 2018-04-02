@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Part 3</title>
+
+<!--
+// Program to draw two tetrahedrons with two light sources
+// Adapted from Angel & Shreiner 2D Sierpinski Gasket, Color Cube programs
+// and recursive sphere and J. Whitford Holey's MatmovingGlobe program.
+// by Tyler Wilson 2018
+-->
+
+
+<!--
+  vertex shader script
+-->
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+attribute vec3 vNormal;
+
+varying vec3 fN;
+varying vec3 fE;
+varying vec3 fL;
+varying vec3 fL2;
+
+uniform mat4 model_view;
+uniform mat4 projection;
+uniform mat3 normal_mat;
+uniform vec4 light_position;
+uniform vec4 light_position2;
+
+void main()
+{
+  vec4 ecPosition = model_view * vPosition;
+
+  fN = normal_mat * vNormal;
+  fE = -ecPosition.xyz;
+  if (light_position.w == 0.0) {
+    fL = light_position.xyz;
+    fL2 = light_position2.xyz;
+  } else {
+    fL = light_position.xyz - ecPosition.xyz;
+    fL2 = light_position2.xyz - ecPosition.xyz;
+  }
+
+  gl_Position = projection * ecPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec3 fN;
+varying vec3 fL;
+varying vec3 fL2;
+varying vec3 fE;
+
+uniform vec4 ambient_product, diffuse_product, specular_product;
+uniform float shininess;
+
+void main()
+{
+  vec3 N = normalize(fN);
+  vec3 E = normalize(fE);
+  vec3 L = normalize(fL);
+  vec3 H = normalize(L + E);
+
+  float dotLN = dot(L, N);
+
+  float Kd = max(dotLN, 0.0);
+  float Ks = pow(max(dot(N, H), 0.0), shininess);
+
+  vec4 ambient  = ambient_product;
+  vec4 diffuse  = Kd * diffuse_product;
+  vec4 specular = Ks * specular_product;
+  if (dotLN < 0.0) {
+    specular = vec4(0.0, 0.0, 0.0, 1.0);
+  }
+
+  vec4 fColor  = ambient + diffuse + specular;
+
+  L = normalize(fL2);
+  H = normalize(fL2 + fE);
+  Kd = max(dot(L, N), 0.0);
+  Ks = pow(max(dot(N, H), 0.0), shininess);
+  ambient  = ambient_product;
+  diffuse  = Kd * diffuse_product;
+  specular = Ks * specular_product;
+  if (dot(L, N) < 0.0) {
+    specular = vec4(0.0, 0.0, 0.0, 1.0);
+  }
+  fColor  += ambient + diffuse + specular;
+
+
+  fColor.a     = 1.0;
+  gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="../Common/holeyShapes.js"></script>
+<script type="text/javascript" src="part3.js"></script>
+</head>
+
+<body>
+<canvas id="gl-canvas" width="640" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+<p></p>
+
+<p>
+<button id= "leftButton" >Move Left</button>&nbsp;&nbsp;
+<button id= "rightButton">Move Right</button>&nbsp;&nbsp;&nbsp;&nbsp;
+<button id= "downButton" >Move Down</button>&nbsp;&nbsp;
+<button id= "upButton"   >Move Up</button>&nbsp;&nbsp;&nbsp;&nbsp;
+<button id= "inButton"   >Move In</button>&nbsp;&nbsp;
+<button id= "outButton"  >Move Out</button></p>
+
+
+</body>
+</html>
